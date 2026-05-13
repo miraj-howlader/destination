@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 const DeleteDialog = ({destinationda}) => {
 
     const handleDete = async ()=>{
-    const res = await fetch(`http://localhost:5000/delete/${destinationda._id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delete/${destinationda._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

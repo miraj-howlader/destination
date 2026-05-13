@@ -3,7 +3,11 @@
 import Link from 'next/link'
 import React from 'react'
 import { Compass, Menu, User } from 'lucide-react'
+
 import { usePathname } from 'next/navigation'
+import { authClient } from '@/lib/auth-client'
+import { Avatar, Button } from '@heroui/react'
+
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -26,6 +30,12 @@ const Navbar = () => {
       path: '/add-destination',
     },
   ]
+  const {data:session} =authClient.useSession()
+  const user = session?.user
+
+  const handleLogout =async ()=>{
+    await authClient.signOut()
+  }
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-gray-200">
@@ -91,23 +101,33 @@ const Navbar = () => {
               <User size={18} />
             </Link>
 
-            {/* Login */}
-            <Link
+           
+            {
+              user ?  <>
+              <Avatar>
+            <Avatar.Image alt="John Doe" src={user?.image} />
+            <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
+           </Avatar>
+           <Button variant='danger' onClick={handleLogout}>Logout</Button>
+              </> : <>
+          <Link
               href="/login"
               className="hidden md:flex px-5 py-2.5 rounded-xl border border-gray-300 hover:border-orange-500 hover:text-orange-500 transition duration-300 font-medium"
             >
               Login
             </Link>
 
-            {/* Signup */}
+           
             <Link
               href="/signup"
               className="px-5 py-2.5 rounded-xl bg-black hover:bg-orange-500 text-white transition duration-300 font-medium shadow-lg"
             >
               Sign Up
             </Link>
+         </>
+            }
 
-            {/* Mobile Menu */}
+           
             <button className="md:hidden w-11 h-11 rounded-xl bg-gray-100 flex items-center justify-center">
               <Menu size={20} />
             </button>

@@ -1,7 +1,7 @@
 import Destinationcard from "@/components/Destinationcard"
 
 const Destination =async () => {
-   const res  = await fetch('http://localhost:5000/alldestination')
+   const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/alldestination`)
    const destinationData  = await res.json()
  
 

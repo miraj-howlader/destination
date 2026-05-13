@@ -1,3 +1,4 @@
+import BookingCard from '@/components/BookingCard'
 import DeleteDialog from '@/components/DeleteDialog'
 import EditModal from '@/components/EditModal'
 
@@ -8,7 +9,7 @@ import React from 'react'
 const DestinationDetailsPage = async ({ params }) => {
   const { id } = await params
 
-  const res = await fetch(`http://localhost:5000/single/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/single/${id}`, {
     cache: 'no-store',
   })
 
@@ -115,58 +116,7 @@ const DestinationDetailsPage = async ({ params }) => {
           </div>
 
           {/* Right Side Card */}
-          <div>
-
-            <div className="bg-white rounded-3xl shadow-xl p-6 sticky top-5">
-
-              <div className="flex items-center justify-between mb-6">
-
-                <div>
-                  <p className="text-gray-500 text-sm">Starting From</p>
-
-                  <h1 className="text-4xl font-extrabold text-orange-500">
-                    ${destionationData.price}
-                  </h1>
-                </div>
-
-                <div className="bg-orange-100 text-orange-500 px-4 py-2 rounded-full text-sm font-semibold">
-                  Popular
-                </div>
-
-              </div>
-
-              <button className="w-full bg-black hover:bg-orange-500 transition duration-300 text-white py-4 rounded-2xl text-lg font-semibold">
-                Book Now
-              </button>
-
-              <div className="mt-6 space-y-4">
-
-                <div className="flex items-center justify-between text-gray-600">
-                  <span>Duration</span>
-                  <span className="font-semibold">
-                    {destionationData.duration}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-gray-600">
-                  <span>Country</span>
-                  <span className="font-semibold">
-                    {destionationData.country}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-gray-600">
-                  <span>Availability</span>
-                  <span className="text-green-500 font-semibold">
-                    Available
-                  </span>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
+        <BookingCard destionationData={destionationData}/>
 
         </div>
 
