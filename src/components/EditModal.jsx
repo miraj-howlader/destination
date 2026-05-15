@@ -30,7 +30,7 @@ const EditModal = ({destinationda}) => {
     const destination = Object.fromEntries(formData.entries());
     console.log(destination)
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/update/${destinationda._id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/update/${destinationda._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

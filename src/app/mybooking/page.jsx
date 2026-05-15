@@ -11,8 +11,16 @@ const MyBookingPage = async () => {
         headers: await headers()
     })
     const user = session?.user
+
+    const {token} = await auth.api.getToken({
+      headers: await headers()
+    })
    
-    const res = await fetch(`http://localhost:5000/booking/${user?.id}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,{
+      headers:{
+        authorization: `Bearer ${token}`
+      }
+    })
     const bookingData  = await res.json()
     
 
@@ -22,9 +30,9 @@ const MyBookingPage = async () => {
     <div className='max-w-7xl mx-auto'>
         <h1 className='text-3xl font-bold'>My Bookings</h1>
 
-        <div className=' space-y-5'>
+        <div className=' space-y-5 mt-10 mb-10'>
             {
-                bookingData.map(booking=><div key={booking._id} className='flex gap-6 border p-5 min-w-3xl'>
+              bookingData.length> 0 ? bookingData.map(booking=><div key={booking._id} className='flex gap-6 border p-5 min-w-3xl'>
                   <Image src={booking.imageUrl} alt={booking.destinationName} height={200} width={200}/>
 
                   <div>
@@ -36,6 +44,8 @@ const MyBookingPage = async () => {
                     
                   </div>
                   <CancelBooking booking={booking}/>
+                </div>):(<div>
+                  <h1 className='text-5xl font-bold items-center justify-center flex'>No Booking Foun! Please add first</h1>
                 </div>)
             }
         </div>

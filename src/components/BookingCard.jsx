@@ -15,10 +15,14 @@ const BookingCard = ({destionationData}) => {
     const bookingData = {userId:user.id,imageImage:user.image,userName:user.name,destinationId:destionationData._id,
       destinationName,price,imageUrl,country,date: new Date(date)
     }
-    const res = await fetch(`http://localhost:5000/booking`,{
+    const {data:tokenData} = await authClient.token()
+    console.log(tokenData)
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`,{
       method:"POST",
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        authorization: `Bearer ${tokenData?.token}`
       },
       body:JSON.stringify(bookingData)
     })

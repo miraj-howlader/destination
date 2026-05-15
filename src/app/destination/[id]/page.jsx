@@ -1,16 +1,24 @@
 import BookingCard from '@/components/BookingCard'
 import DeleteDialog from '@/components/DeleteDialog'
 import EditModal from '@/components/EditModal'
+import { auth } from '@/lib/auth'
 
 import { Calendar, MapPin, Star, Clock3, Edit } from 'lucide-react'
+import { headers } from 'next/headers'
 import Image from 'next/image'
 import React from 'react'
 
 const DestinationDetailsPage = async ({ params }) => {
   const { id } = await params
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
+  console.log(token)
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/single/${id}`, {
-    cache: 'no-store',
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/single/${id}`, {
+    headers:{
+      authorization:`Bearer ${token}`
+    }
   })
 
   const destionationData = await res.json()
